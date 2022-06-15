@@ -36,7 +36,7 @@ Apply LB service YAML to create a proxy for HOST port tcp/32740 -> container por
 
 Pod/Deployment - 3 Splunk Deployment Server (replica) nodes with the folllowing hostPath mappings for **/var/s3fs (S3 Bucket mounted)**
 
-      kubectl apply -f sdss_fuse.yaml
+      kubectl apply -f sdds_fuse.yaml
 
 **S3 Buckets/Directories needed**
 
@@ -89,6 +89,7 @@ Install and configure S3 mount point at /var/s3fs for Ubuntu
       sudo apt install s3fs
       sudo touch /etc/passwd-s3fs
       sudo echo "AccessKey:SecretKey" >> /etc/passwd-s3fs
+      sudo chmod 600 /etc/passwd-s3fs
       sudo mkdir /var/s3fs
       sudo s3fs klgsdds /var/s3fs -o allow_other -o umask=000
       sudo ls /var/s3fs
