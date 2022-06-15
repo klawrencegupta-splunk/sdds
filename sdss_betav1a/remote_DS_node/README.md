@@ -99,3 +99,8 @@ Restart Sequence that picks up new changes in serverclass/deployment-apps & remo
      kubectl scale --replicas=0 -f sdds_fuse.yaml
      rm -f /var/s3fs/sdds_outputs_config/local/outputs.conf
      kubectl scale --replicas=3 -f sdds_fuse.yaml
+      
+Before Helm charts can be installed in a microk8s setup you need set
+      
+      kubectl config view --raw > ~/.kube/config
+      helm install sc4k_sdds -f SC4K_values.yaml splunk/splunk-connect-for-kubernetes
