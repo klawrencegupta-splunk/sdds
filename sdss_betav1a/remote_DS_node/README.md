@@ -4,6 +4,22 @@ The code below will deploy:
 * 3 Splunk Deployment Server replica nodes running in a Kubernetes Deployment/Pod
 * a pre-configured Load Balancer (service) running on a default inbound port TCP/32740
 
+Splunk 9.0 requires a restmap.conf (https://docs.splunk.com/Documentation/Splunk/9.0.0/Admin/restmapconf) to also be deployed to address https://nvd.nist.gov/vuln/detail/CVE-2022-32157 & https://nvd.nist.gov/vuln/detail/CVE-2022-32158. The example provided uses the pass4SymmKey set in the [general] stanza in the system/local server.conf (set on startup -- more https://docs.splunk.com/Documentation/Splunk/9.0.0/Admin/serverconf) 
+
+      [streams:deployment]
+      requireAuthentication=true
+      authKeyStanza=general
+
+Use the sdds_9.0_fuse.yaml to deploy the latest Splunk code with additional startup and post-Start parameters
+
+      name: SPLUNK_START_ARGS
+      value: "--accept-license --no-prompt --answer-yes"
+      
+      lifecycle:
+            postStart:
+              exec:
+                command: ["/bin/sh", "-c", "sleep 120s; sudo /opt/splunk/bin/./splunk enable deploy-server -auth admin:changeme123"]
+
 The Load Balancer & tcp-services configuration deploys an inbound TCP proxy on each HOST using a default port of TCP/32740
 this proxy is used to communicate between each of the Splunk Deployment Server replicas on the standard management port TCP/8089
 
