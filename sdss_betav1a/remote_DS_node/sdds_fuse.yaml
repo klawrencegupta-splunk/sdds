@@ -40,7 +40,7 @@ spec:
           - sdds.splunk.svc.cluster.local
       containers:
         - name: splunksdds
-          image: splunk/splunk:latest
+          image: splunk/splunk:8.2
           ports:
            - containerPort: 8089
              name: splunk
